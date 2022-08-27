@@ -1,3 +1,5 @@
+from time import perf_counter
+
 from memoizer import memo_wrapper # import based on your directories
 
 
@@ -12,8 +14,6 @@ def fib(n):
     return fib(n - 1) + fib(n - 2)  # Problems are repeated on both sides to add to a time complexity of O(n^2)
 
 # Without memoization, it will be 2^200 problems, with memoization it's only 200 problems
-print(fib(200))
-#25477612258980856902730428600
 
 
 # n = arg0, m = arg1
@@ -29,5 +29,14 @@ def grid_traveler(n, m):# Without memo, time complexity = O(2^(m+n)), Space Comp
     return grid_traveler(n-1,m) + grid_traveler(n, m-1) # n-1 for down move, m-1 for right move
 
 # Without memoization, it will be 2^(80+80-4) problems, with memoization it's only 160 problems
+
+t = perf_counter()
+print(fib(200)) #280571172992510140037611932413038677189525
+print("Execution Time : ",perf_counter()-t," ms") #Execution Time :  0.0011546999448910356  ms
+
+#25477612258980856902730428600
+
+t = perf_counter()
 print(grid_traveler(80,80))
+print("Execution Time : ",perf_counter()-t," ms")
 #280571172992510140037611932413038677189525
