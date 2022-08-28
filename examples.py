@@ -69,8 +69,40 @@ def howSum(targetSum, numbers, idx) -> []: #outputs a list containing A combinat
     return None
 # print(howSum(213421, [10, 5, 6, -1, -5, 23, 54, 123, 654, 765, 12, 43, -23, 43, -4, -54, -6, -7, -4, -3, 3, -4, -67, 2, -43, 4, 43, 32], 0))
 
-print(howSum(98, [7,2,6,7,8,3,7,4,5,6,7,-2,-5,-8,10, 5, 6,-3,-5,21,-65,-2,9, 3,4], 0))
+print(howSum(105, [7,2,6,7,8,3,7,4,5,6,7,-2,-5,-8,10, 5, 6,-3,-5,21,-65,-2,9, 3,4], 0))
 
+@memo_wrapper
+def bestSum(targetSum, numbers, idx) -> []: #outputs a list containing A combination that adds upto target sum
+    if targetSum == 0:
+        return []
+    elif idx == len(numbers):
+        return None
+
+    # if numbers[idx] > targetSum: # Skip if current can't be added
+    #     return howSum(targetSum, numbers, idx+1)
+    # else:
+    # priority for skipping vs adding can be selected based on the placement of r1 call compared to r2 call
+    r2 = bestSum(targetSum, numbers, idx + 1)  # skip
+
+    # if r2 is not None:  # r2 reached upto goal
+    #     return r2
+
+    r1 = bestSum(targetSum - numbers[idx], numbers, idx + 1)
+    if r1 is not None: # returned item instead of None:
+        l = [{idx: numbers[idx]}]
+        l.extend(r1)
+        # return l
+
+    if r1 is not None and r2 is not None:
+        return l if len(r1) < len(r2) else r2 # the shorter length upto this point will be the shorter length afterwards as well
+    elif r1 is not None:
+        return l
+    elif r2 is not None:
+        return r2
+    else:
+        return None
+
+print(bestSum(105, [7,2,6,7,8,3,7,4,5,6,7,-2,-5,-8,10, 5, 6,-3,-5,21,-65,-2,9, 3,4], 0))
 # t = perf_counter()
 # print(fib(200)) #280571172992510140037611932413038677189525
 # print("Execution Time : ",perf_counter()-t," ms") #Execution Time :  0.0011546999448910356  ms
