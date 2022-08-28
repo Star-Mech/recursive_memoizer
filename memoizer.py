@@ -18,8 +18,8 @@ def memo_wrapper(*ar, **kw):  # Pass key_list=[list of arguments to be used in k
             if key_list:
                 key_memo = tuple(args[i] if type(i) is int else kwargs.get(i) for i in key_list)
             else:
-                key_memo = args
-            if args not in memo:
+                key_memo = tuple(item for item in args if type(item) is not list)
+            if key_memo not in memo:
                 memo[key_memo] = func(*args, **kwargs)
             return memo[key_memo]
 
